@@ -1,0 +1,173 @@
+import org.telegram.telegrambots.api.methods.send.SendMessage;
+import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardButton;
+import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardRow;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Keyboards {
+    public void setButtonsMain(SendMessage sendMessage){
+        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
+        sendMessage.setReplyMarkup(replyKeyboardMarkup);
+        replyKeyboardMarkup.setSelective(true);
+        replyKeyboardMarkup.setResizeKeyboard(true);
+        replyKeyboardMarkup.setOneTimeKeyboard(false);
+
+        List<KeyboardRow> keyboardRowList = new ArrayList<>();
+        KeyboardRow keyboardFirstRow = new KeyboardRow();
+
+        keyboardFirstRow.add(new KeyboardButton("Где покушать?"));
+        keyboardFirstRow.add(new KeyboardButton("Что значит это слово?"));
+        keyboardFirstRow.add(new KeyboardButton("Разработчик"));
+
+        KeyboardRow keyboardSecondRow = new KeyboardRow();
+
+        keyboardSecondRow.add(new KeyboardButton("Расписание"));
+        keyboardSecondRow.add(new KeyboardButton("Адрес администрации"));
+        keyboardSecondRow.add(new KeyboardButton("Новости"));
+
+        KeyboardRow keyboardThirdRow = new KeyboardRow();
+
+        keyboardThirdRow.add(new KeyboardButton("Полезные ссылки"));
+        keyboardThirdRow.add(new KeyboardButton("Команды"));
+
+        keyboardRowList.add(keyboardFirstRow);
+        keyboardRowList.add(keyboardSecondRow);
+        keyboardRowList.add(keyboardThirdRow);
+        replyKeyboardMarkup.setKeyboard(keyboardRowList);
+    }
+
+    public void setButtonsLinks(SendMessage sendMessage){
+        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
+        sendMessage.setReplyMarkup(replyKeyboardMarkup);
+        replyKeyboardMarkup.setSelective(true);
+        replyKeyboardMarkup.setResizeKeyboard(true);
+        replyKeyboardMarkup.setOneTimeKeyboard(false);
+
+        List<KeyboardRow> keyboardRowList = new ArrayList<>();
+        KeyboardRow keyboardFirstRow = new KeyboardRow();
+
+        keyboardFirstRow.add(new KeyboardButton("КФУ"));
+        keyboardFirstRow.add(new KeyboardButton("ИВМиИТ"));
+        keyboardFirstRow.add(new KeyboardButton("FAQ абитуриента/первокурсника"));
+
+        KeyboardRow keyboardSecondRow = new KeyboardRow();
+
+        keyboardSecondRow.add(new KeyboardButton("ПрИкЛаДниЧкИ"));
+        keyboardSecondRow.add(new KeyboardButton("SAAS"));
+        keyboardSecondRow.add(new KeyboardButton("КРИС ИВМиИТ"));
+
+        KeyboardRow keyboardThirdRow = new KeyboardRow();
+
+        keyboardThirdRow.add(new KeyboardButton("Студ. клуб ИВМиИТ"));
+        keyboardThirdRow.add(new KeyboardButton("Киберспорт ИВМиИТ"));
+        keyboardThirdRow.add(new KeyboardButton("Спорт ИВМиИТ"));
+
+        KeyboardRow keyboardFourthRow = new KeyboardRow();
+
+        keyboardFourthRow.add(new KeyboardButton("Добро ИВМиИТ"));
+        keyboardFourthRow.add(new KeyboardButton("Общежитие на Пушкина"));
+        keyboardFourthRow.add(new KeyboardButton("Общежитие ДУ"));
+
+        keyboardRowList.add(keyboardFirstRow);
+        keyboardRowList.add(keyboardSecondRow);
+        keyboardRowList.add(keyboardThirdRow);
+        keyboardRowList.add(keyboardFourthRow);
+        replyKeyboardMarkup.setKeyboard(keyboardRowList);
+    }
+
+    public void setButtonsDays(SendMessage sendMessage){
+        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
+        sendMessage.setReplyMarkup(replyKeyboardMarkup);
+        replyKeyboardMarkup.setSelective(true);
+        replyKeyboardMarkup.setResizeKeyboard(true);
+        replyKeyboardMarkup.setOneTimeKeyboard(false);
+
+        List<KeyboardRow> keyboardRowList = new ArrayList<>();
+        KeyboardRow keyboardFirstRow = new KeyboardRow();
+
+        keyboardFirstRow.add(new KeyboardButton("Пн"));
+        keyboardFirstRow.add(new KeyboardButton("Вт"));
+        keyboardFirstRow.add(new KeyboardButton("Ср"));
+
+        KeyboardRow keyboardSecondRow = new KeyboardRow();
+
+        keyboardSecondRow.add(new KeyboardButton("Чт"));
+        keyboardSecondRow.add(new KeyboardButton("Пт"));
+        keyboardSecondRow.add(new KeyboardButton("Сб"));
+
+        keyboardRowList.add(keyboardFirstRow);
+        keyboardRowList.add(keyboardSecondRow);
+        replyKeyboardMarkup.setKeyboard(keyboardRowList);
+    }
+
+    public void setButtonsAddresses(SendMessage sendMessage){
+        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
+        sendMessage.setReplyMarkup(replyKeyboardMarkup);
+        replyKeyboardMarkup.setSelective(true);
+        replyKeyboardMarkup.setResizeKeyboard(true);
+        replyKeyboardMarkup.setOneTimeKeyboard(false);
+
+        List<KeyboardRow> keyboardRowList = new ArrayList<>();
+        KeyboardRow keyboardFirstRow = new KeyboardRow();
+
+        keyboardFirstRow.add(new KeyboardButton("Деканат ИВМиИТ"));
+        keyboardFirstRow.add(new KeyboardButton("Каф. прик. мат."));
+        keyboardFirstRow.add(new KeyboardButton("Каф. выч. мат."));
+
+        KeyboardRow keyboardSecondRow = new KeyboardRow();
+
+        keyboardSecondRow.add(new KeyboardButton("Каф. теор. кибернет."));
+        keyboardSecondRow.add(new KeyboardButton("Каф. ан. дан. и иссл. опер."));
+        keyboardSecondRow.add(new KeyboardButton("Каф. тех. прог."));
+
+        KeyboardRow keyboardThirdRow = new KeyboardRow();
+
+        keyboardThirdRow.add(new KeyboardButton("Каф. сис. ан. и ИТ"));
+        keyboardThirdRow.add(new KeyboardButton("Каф. ИС"));
+        keyboardThirdRow.add(new KeyboardButton("Бухгалтерия"));
+
+        keyboardRowList.add(keyboardFirstRow);
+        keyboardRowList.add(keyboardSecondRow);
+        keyboardRowList.add(keyboardThirdRow);
+        replyKeyboardMarkup.setKeyboard(keyboardRowList);
+    }
+
+    public void setButtonsChoose(SendMessage sendMessage){
+        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
+        sendMessage.setReplyMarkup(replyKeyboardMarkup);
+        replyKeyboardMarkup.setSelective(true);
+        replyKeyboardMarkup.setResizeKeyboard(true);
+        replyKeyboardMarkup.setOneTimeKeyboard(false);
+
+        List<KeyboardRow> keyboardRowList = new ArrayList<>();
+        KeyboardRow keyboardFirstRow = new KeyboardRow();
+
+        keyboardFirstRow.add(new KeyboardButton("Нет"));
+
+        KeyboardRow keyboardSecondRow = new KeyboardRow();
+
+        keyboardSecondRow.add(new KeyboardButton("Да"));
+
+        keyboardRowList.add(keyboardFirstRow);
+        keyboardRowList.add(keyboardSecondRow);
+        replyKeyboardMarkup.setKeyboard(keyboardRowList);
+    }
+
+    public void setButtonsEmpty(SendMessage sendMessage){
+        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
+        sendMessage.setReplyMarkup(replyKeyboardMarkup);
+        replyKeyboardMarkup.setSelective(true);
+        replyKeyboardMarkup.setResizeKeyboard(true);
+        replyKeyboardMarkup.setOneTimeKeyboard(false);
+
+        List<KeyboardRow> keyboardRowList = new ArrayList<>();
+
+        KeyboardRow keyboardFirstRow = new KeyboardRow();
+        keyboardFirstRow.add(new KeyboardButton(" "));
+        keyboardRowList.add(keyboardFirstRow);
+
+        replyKeyboardMarkup.setKeyboard(keyboardRowList);
+    }
+}
