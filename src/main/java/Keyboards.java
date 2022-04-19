@@ -113,19 +113,17 @@ public class Keyboards {
         KeyboardRow keyboardFirstRow = new KeyboardRow();
 
         keyboardFirstRow.add(new KeyboardButton("Деканат ИВМиИТ"));
-        keyboardFirstRow.add(new KeyboardButton("Каф. прик. мат."));
-        keyboardFirstRow.add(new KeyboardButton("Каф. выч. мат."));
+        keyboardFirstRow.add(new KeyboardButton("Каф. ПМ и ИИ"));
+        keyboardFirstRow.add(new KeyboardButton("Каф. теор. кибер."));
 
         KeyboardRow keyboardSecondRow = new KeyboardRow();
 
-        keyboardSecondRow.add(new KeyboardButton("Каф. теор. кибернет."));
-        keyboardSecondRow.add(new KeyboardButton("Каф. ан. дан. и иссл. опер."));
-        keyboardSecondRow.add(new KeyboardButton("Каф. тех. прог."));
+        keyboardSecondRow.add(new KeyboardButton("Каф. ан. дан. и теор. прог."));
+        keyboardSecondRow.add(new KeyboardButton("Каф. ИС"));
 
         KeyboardRow keyboardThirdRow = new KeyboardRow();
 
         keyboardThirdRow.add(new KeyboardButton("Каф. сис. ан. и ИТ"));
-        keyboardThirdRow.add(new KeyboardButton("Каф. ИС"));
         keyboardThirdRow.add(new KeyboardButton("Бухгалтерия"));
 
         keyboardRowList.add(keyboardFirstRow);

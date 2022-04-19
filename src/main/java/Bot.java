@@ -7,6 +7,7 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 public class Bot extends TelegramLongPollingBot {
@@ -75,11 +76,6 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
-    public void getSchedule(Message message, String day, String group){
-        String text = "Schedule for "+dayWeek+" and group "+myGroup;
-        sendMsg(message, text, "Main");
-    }
-
     @Override
     public void onUpdateReceived(Update update) {
         HashMap<String,String> commands = methods.getCommands();
@@ -145,32 +141,32 @@ public class Bot extends TelegramLongPollingBot {
                         case "Пн":
                             dayWeek = "Понедельник";
                             type=3;
-                            sendMsg(message, "Введите вашу группу в формате: 09-951(2)", "Group");
+                            sendMsg(message, "Введите вашу группу в формате: 09-951 (2)", "Group");
                             break;
                         case "Вт":
                             dayWeek = "Вторник";
                             type=3;
-                            sendMsg(message, "Введите вашу группу в формате: 09-951(2)", "Group");
+                            sendMsg(message, "Введите вашу группу в формате: 09-951 (2)", "Group");
                             break;
                         case "Ср":
                             dayWeek = "Среда";
                             type=3;
-                            sendMsg(message, "Введите вашу группу в формате: 09-951(2)", "Group");
+                            sendMsg(message, "Введите вашу группу в формате: 09-951 (2)", "Group");
                             break;
                         case "Чт":
                             dayWeek = "Четверг";
                             type=3;
-                            sendMsg(message, "Введите вашу группу в формате: 09-951(2)", "Group");
+                            sendMsg(message, "Введите вашу группу в формате: 09-951 (2)", "Group");
                             break;
                         case "Пт":
                             dayWeek = "Пятница";
                             type=3;
-                            sendMsg(message, "Введите вашу группу в формате: 09-951(2)", "Group");
+                            sendMsg(message, "Введите вашу группу в формате: 09-951 (2)", "Group");
                             break;
                         case "Сб":
                             dayWeek = "Суббота";
                             type=3;
-                            sendMsg(message, "Введите вашу группу в формате: 09-951(2)", "Group");
+                            sendMsg(message, "Введите вашу группу в формате: 09-951 (2)", "Group");
                             break;
                         default:
                             type=1;
@@ -180,7 +176,11 @@ public class Bot extends TelegramLongPollingBot {
                 case 3:
                     myGroup = message.getText();
                     if (methods.checkGroup(myGroup)){
-                        getSchedule(message, dayWeek, myGroup);
+                        try {
+                            sendMsg(message, Methods.getSchedule(dayWeek, myGroup), "Main");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         type=1;
                         sendMsg(message, "Главное меню", "Main");
                         break;
