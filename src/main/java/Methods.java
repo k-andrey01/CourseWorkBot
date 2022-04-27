@@ -1,4 +1,4 @@
-import org.telegram.telegrambots.api.objects.Message;
+//import org.telegram.telegrambots.api.objects.Message;
 
 import java.io.BufferedInputStream;
 import java.io.FileOutputStream;

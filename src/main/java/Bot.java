@@ -191,16 +191,15 @@ public class Bot extends TelegramLongPollingBot {
                     break;
                 case 4:
                     String termin = message.getText();
-                    Boolean flag = false;
-                    if (flag){
-                        type=1;
-                        sendMsg(message, "определение", "Main");
+
+                        try {
+                            type=1;
+                            sendMsg(message, DbMethods.getTerm(termin), "Main");
+                        } catch (IOException e) {
+                            type=5;
+                            sendMsg(message, "К сожалению. данного слова нет в нашем словаре. Хотите ли Вы отправить термин на рассмотрение к добавлению?", "YesNo");
+                        }
                         break;
-                    }else{
-                        type=5;
-                        sendMsg(message, "К сожалению. данного слова нет в нашем словаре. Хотите ли Вы отправить термин на рассмотрение к добавлению?", "YesNo");
-                        break;
-                    }
                 case 5:
                     switch (message.getText()){
                         case "Да":
@@ -224,33 +223,21 @@ public class Bot extends TelegramLongPollingBot {
                             type=1;
                             sendMsg(message, "ул. Кремлевская, 35, каб.1004", "Main");
                             break;
-                        case "Каф. прик. мат.":
+                        case "Каф. ПМ и ИИ":
                             type=1;
                             sendMsg(message, "ул. Кремлевская, 35, каб. 1202, 1210, 1106", "Main");
                             break;
-                        case "Каф. выч. мат.":
+                        case "Каф. теор. кибер.":
                             type=1;
                             sendMsg(message, "ул. Кремлевская, д. 35, к.1203, 1209", "Main");
                             break;
-                        case "Каф. теор. кибернет.":
+                        case "Каф. ИС":
                             type=1;
                             sendMsg(message, "ул. Кремлевская, 35, к.902, 908", "Main");
                             break;
-                        case "Каф. ан. дан. и иссл. опер.":
-                            type=1;
-                            sendMsg(message, "ул. Кремлевская, д. 35, к.1102, 1103", "Main");
-                            break;
-                        case "Каф. тех. прог.":
-                            type=1;
-                            sendMsg(message, "ул. Кремлевская, 35, к.901", "Main");
-                            break;
                         case "Каф. сис. ан. и ИТ":
                             type=1;
-                            sendMsg(message, "ул. Кремлевская, 35, к.1007, 903, 906", "Main");
-                            break;
-                        case "Каф. ИС":
-                            type=1;
-                            sendMsg(message, "ул. Кремлевская, 35, к.1204", "Main");
+                            sendMsg(message, "ул. Кремлевская, д. 35, к.1102, 1103", "Main");
                             break;
                         case "Бухгалтерия":
                             type=1;

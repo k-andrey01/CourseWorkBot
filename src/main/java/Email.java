@@ -21,7 +21,7 @@ public class Email {
                 new Authenticator() {
                     @Override
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication("russia_andreykazantsev@mail.ru", "RT1KU2sJv1sdrsvygUKp");
+                        return new PasswordAuthentication("russia_andreykazantsev@mail.ru", ConfProperties.getProperty("password"));
                     }
                 });
 
@@ -31,7 +31,7 @@ public class Email {
             //От кого
             messager.setFrom(new InternetAddress("russia_andreykazantsev@mail.ru"));
             //Кому
-            messager.setRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress("russia_andreykazantsev@mail.ru"));
+            messager.setRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress("russia_andreykazantsev2001@mail.ru"));
             //Тема письма
             messager.setSubject("Термин для чат бота телеграм");
             //Текст письма
