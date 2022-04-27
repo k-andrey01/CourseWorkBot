@@ -1,4 +1,4 @@
-
+package DifferentMethods;
 
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
@@ -26,7 +26,7 @@ public class Keyboards {
         KeyboardRow keyboardSecondRow = new KeyboardRow();
 
         keyboardSecondRow.add(new KeyboardButton("Расписание"));
-        keyboardSecondRow.add(new KeyboardButton("Адрес администрации"));
+        keyboardSecondRow.add(new KeyboardButton("Администрация"));
         keyboardSecondRow.add(new KeyboardButton("Новости"));
 
         KeyboardRow keyboardThirdRow = new KeyboardRow();
@@ -89,15 +89,15 @@ public class Keyboards {
         List<KeyboardRow> keyboardRowList = new ArrayList<>();
         KeyboardRow keyboardFirstRow = new KeyboardRow();
 
-        keyboardFirstRow.add(new KeyboardButton("Пн"));
-        keyboardFirstRow.add(new KeyboardButton("Вт"));
-        keyboardFirstRow.add(new KeyboardButton("Ср"));
+        keyboardFirstRow.add(new KeyboardButton("Понедельник"));
+        keyboardFirstRow.add(new KeyboardButton("Вторник"));
+        keyboardFirstRow.add(new KeyboardButton("Среда"));
 
         KeyboardRow keyboardSecondRow = new KeyboardRow();
 
-        keyboardSecondRow.add(new KeyboardButton("Чт"));
-        keyboardSecondRow.add(new KeyboardButton("Пт"));
-        keyboardSecondRow.add(new KeyboardButton("Сб"));
+        keyboardSecondRow.add(new KeyboardButton("Четверг"));
+        keyboardSecondRow.add(new KeyboardButton("Пятница"));
+        keyboardSecondRow.add(new KeyboardButton("Суббота"));
 
         keyboardRowList.add(keyboardFirstRow);
         keyboardRowList.add(keyboardSecondRow);

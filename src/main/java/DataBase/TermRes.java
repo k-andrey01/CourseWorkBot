@@ -1,3 +1,5 @@
+package DataBase;
+
 public class TermRes {
     public String term;
     public String text;

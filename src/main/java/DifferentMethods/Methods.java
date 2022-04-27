@@ -1,4 +1,4 @@
-//import org.telegram.telegrambots.api.objects.Message;
+package DifferentMethods;//import org.telegram.telegrambots.api.objects.Message;
 
 import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
@@ -18,7 +18,7 @@ public class Methods {
         commands.put("Полезные ссылки", "/links");
         commands.put("Команды", "/help");
         commands.put("Новости", "/news");
-        commands.put("Адрес администрации", "/address");
+        commands.put("Администрация", "/address");
         commands.put("Расписание", "/schedule");
         commands.put("Разработчик", "/developer");
         commands.put("Что значит это слово?", "/term");
