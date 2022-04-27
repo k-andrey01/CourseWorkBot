@@ -1,11 +1,13 @@
-import org.telegram.telegrambots.ApiContextInitializer;
-import org.telegram.telegrambots.TelegramBotsApi;
-import org.telegram.telegrambots.api.methods.send.SendMessage;
-import org.telegram.telegrambots.api.objects.Message;
-import org.telegram.telegrambots.api.objects.Update;
+
+
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.exceptions.TelegramApiException;
-import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
+import org.telegram.telegrambots.meta.TelegramBotsApi;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
+import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -16,6 +18,7 @@ public class Bot extends TelegramLongPollingBot {
 
     public String dayWeek;
     public String myGroup;
+    public String termin;
     Keyboards keyboards = new Keyboards();
     Methods methods = new Methods();
 
@@ -30,14 +33,9 @@ public class Bot extends TelegramLongPollingBot {
                          "/help (Команды) - получение списка команд и кнопок бота, а также их описания\n"+
                          "/start - запуск или перезапуск бота";
 
-    public static void main(String[] args) {
-        ApiContextInitializer.init();
-        TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
-        try{
-            telegramBotsApi.registerBot(new Bot());
-        }catch (TelegramApiRequestException e){
-            e.printStackTrace();
-        }
+    public static void main(String[] args) throws TelegramApiException {
+        TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
+        telegramBotsApi.registerBot(new Bot());
     }
 
     public void sendMsg(Message message, String text, String keyboard){
@@ -70,7 +68,7 @@ public class Bot extends TelegramLongPollingBot {
                     keyboards.setButtonsLinks(sendMessage);
                     break;
             }
-            sendMessage(sendMessage);
+            execute(sendMessage);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
@@ -190,22 +188,26 @@ public class Bot extends TelegramLongPollingBot {
                     }
                     break;
                 case 4:
-                    String termin = message.getText();
-
-                        try {
-                            type=1;
+                    termin = message.getText();
+                    try {
+                        String ms = DbMethods.getTerm(termin);
+                        if (!ms.equals("null")) {
+                            type = 1;
                             sendMsg(message, DbMethods.getTerm(termin), "Main");
-                        } catch (IOException e) {
-                            type=5;
+                        } else {
+                            type = 5;
                             sendMsg(message, "К сожалению. данного слова нет в нашем словаре. Хотите ли Вы отправить термин на рассмотрение к добавлению?", "YesNo");
                         }
-                        break;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    break;
                 case 5:
                     switch (message.getText()){
                         case "Да":
                             type=1;
                             Email email = new Email();
-                            email.sendMail(message.getAuthorSignature()+"термин");
+                            email.sendMail(termin);
                             sendMsg(message, "Главное меню", "Main");
                         case "Нет":
                             type=1;
