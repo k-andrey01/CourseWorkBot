@@ -2,17 +2,29 @@
 
 import DataBase.DbMethods;
 import DifferentMethods.Email;
+import DifferentMethods.GetVK;
 import DifferentMethods.Keyboards;
 import DifferentMethods.Methods;
+import com.vk.api.sdk.exceptions.ApiException;
+import com.vk.api.sdk.exceptions.ClientException;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Bot extends TelegramLongPollingBot {
@@ -123,7 +135,20 @@ public class Bot extends TelegramLongPollingBot {
                             break;
 
                         case "/news":
-                            sendMsg(message, "Вот последние новости ИВМиИТ:\nБольше новостей здесь: https://vk.com/ivmiit", "Main");
+                            try {
+                                ArrayList<String> arr = GetVK.getVk();
+
+                                for (int i=0; i< arr.size() && arr.get(i).length()>0; i+=2) {
+                                    if (i + 1 < arr.size())
+                                        sendMsg(message, "Вот последние новости ИВМиИТ:\n\n" + arr.get(i) + "\n" +"Фото: " +arr.get(i + 1) + "\n\nБольше новостей здесь: https://vk.com/ivmiit", "Main");
+                                    else
+                                        sendMsg(message, "Вот последние новости ИВМиИТ:\n\n" + arr.get(i) + "\n" + "\n\nБольше новостей здесь: https://vk.com/ivmiit", "Main");
+                                }
+                            } catch (ClientException e) {
+                                e.printStackTrace();
+                            } catch (ApiException e) {
+                                e.printStackTrace();
+                            }
                             break;
 
                         case "/links":
