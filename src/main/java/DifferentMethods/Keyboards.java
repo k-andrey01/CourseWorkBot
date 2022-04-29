@@ -120,7 +120,7 @@ public class Keyboards {
 
         KeyboardRow keyboardSecondRow = new KeyboardRow();
 
-        keyboardSecondRow.add(new KeyboardButton("Каф. ан. дан. и теор. прог."));
+        keyboardSecondRow.add(new KeyboardButton("Каф. ан. дан. и техн. прог."));
         keyboardSecondRow.add(new KeyboardButton("Каф. ИС"));
 
         KeyboardRow keyboardThirdRow = new KeyboardRow();

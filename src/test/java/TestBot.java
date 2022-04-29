@@ -68,7 +68,7 @@ public class TestBot {
     @Test
     public void getPlace() throws IOException{
         DbMethods dbMethods = new DbMethods();
-        String place = "Каф. ан. дан. и теор. прог.";
+        String place = "Каф. ан. дан. и техн. прог.";
         String result = dbMethods.getPlace(place);
 
         Assert.assertTrue(result.contains("Кремлевская, 35, к.1105") && result.contains("(843) 233-76-09"));
