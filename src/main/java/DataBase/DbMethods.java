@@ -12,10 +12,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class DbMethods {
-    public static String getTerm(String term) throws IOException {
+    public static String getTerm(String term1) throws IOException {
         TermRes termRes = new TermRes();
 
-        term = term.toLowerCase();
+        String term = term1.toLowerCase();
         String urls = "http://localhost:19327/term?name="+ URLEncoder.encode(term, "utf-8");
         URL url = new URL(urls);
 
@@ -28,7 +28,7 @@ public class DbMethods {
         if (text.length()>0) {
             JSONObject ttext = (JSONObject) text.get(0);
             termRes.setTerm(ttext.getString("text"));
-            return term + " - " + termRes.getTerm();
+            return term1 + " - " + termRes.getTerm();
         }else{
             return "null";
         }
