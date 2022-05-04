@@ -29,7 +29,7 @@ import java.util.HashMap;
 
 public class Bot extends TelegramLongPollingBot {
 
-    public int type = 1;
+    private int type = 1;
 
     public String dayWeek;
     public String myGroup;
@@ -42,7 +42,7 @@ public class Bot extends TelegramLongPollingBot {
                          "/term (Что значит это слово?) - получение определения некоторого специфичного слова, распространенного среди студентов,\n"+
                          "/developer (Разработчик) - получение контактных данных разработчика,\n"+
                          "/schedule (Расписание) - получение своего расписания на интересующий день недели,\n"+
-                         "/address (Адрес администрации) - получение адреса некоторой точки администрации ВУЗа или института (деканат, кафедра, бухгалтерия и т.д.,)\n"+
+                         "/address (Администрация) - получение адреса некоторой точки администрации ВУЗа или института (деканат, кафедра, бухгалтерия и т.д.,)\n"+
                          "/news (Новости) - получение последних новостей ВУЗа или института,\n"+
                          "/links (Полезные ссылки) - получение ссылок на полезные для студентов ресурсы\n"+
                          "/help (Команды) - получение списка команд и кнопок бота, а также их описания\n"+
@@ -104,6 +104,7 @@ public class Bot extends TelegramLongPollingBot {
                     }
                     switch (mes){
                         case "/help":
+                            type = 1;
                             sendMsg(message, info, "Main");
                             break;
 
@@ -111,7 +112,8 @@ public class Bot extends TelegramLongPollingBot {
                             try {
                                 sendMsg(message, DbMethods.getFood(), "Main");
                             } catch (IOException e) {
-                                e.printStackTrace();
+                                type=1;
+                                sendMsg(message, "Не удалось подключиться к базе данных", "Main");
                             }
                             break;
 
@@ -171,25 +173,19 @@ public class Bot extends TelegramLongPollingBot {
                     break;
                 case 3:
                     myGroup = message.getText();
-                    if (methods.checkGroup(myGroup)){
-                        try {
-                            sendMsg(message, Methods.getSchedule(dayWeek, myGroup), "Main");
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        type=1;
-                        sendMsg(message, "Главное меню", "Main");
-                        break;
-                    }else{
-                        type=1;
-                        sendMsg(message, "Неверный номер группы", "Main");
+                    try {
+                        sendMsg(message, Methods.getSchedule(dayWeek, myGroup), "Main");
+                    } catch (IOException e) {
+                        sendMsg(message, "Ошибка при получении данных", "Main");
                     }
+                    type=1;
+                    sendMsg(message, "Главное меню", "Main");
                     break;
                 case 4:
                     termin = message.getText();
                     try {
                         String ms = DbMethods.getTerm(termin);
-                        if (!ms.equals("null")) {
+                        if (ms!=null) {
                             type = 1;
                             sendMsg(message, DbMethods.getTerm(termin), "Main");
                         } else {
@@ -197,7 +193,8 @@ public class Bot extends TelegramLongPollingBot {
                             sendMsg(message, "К сожалению. данного слова нет в нашем словаре. Хотите ли Вы отправить термин на рассмотрение к добавлению?", "YesNo");
                         }
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        type = 1;
+                        sendMsg(message, "Не удалось подключиться к базе данных", "Main");
                     }
                     break;
                 case 5:
@@ -206,7 +203,7 @@ public class Bot extends TelegramLongPollingBot {
                             type=1;
                             Email email = new Email();
                             email.sendMail(termin);
-                            sendMsg(message, "Главное меню", "Main");
+                            sendMsg(message, "Термин отправлен на рассмотрение к добавлению. Главное меню", "Main");
                         case "Нет":
                             type=1;
                             sendMsg(message, "Главное меню", "Main");
@@ -220,29 +217,31 @@ public class Bot extends TelegramLongPollingBot {
                 case 6:
                     try {
                         String ms = DbMethods.getPlace(message.getText());
-                        if (!ms.equals("null")) {
+                        if (ms!=null) {
                             type = 1;
                             sendMsg(message, ms, "Main");
                         } else {
                             type = 1;
-                            sendMsg(message, "Произошла ошибка", "YesNo");
+                            sendMsg(message, "Произошла ошибка", "Main");
                         }
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        type = 1;
+                        sendMsg(message, "Не удалось подключиться к базе данных", "Main");
                     }
                     break;
                 case 7:
                     try {
                         String ms = DbMethods.getLink(message.getText());
-                        if (!ms.equals("null")) {
+                        if (ms!=null) {
                             type = 1;
                             sendMsg(message, ms, "Main");
                         } else {
                             type = 1;
-                            sendMsg(message, "Произошла ошибка", "YesNo");
+                            sendMsg(message, "Произошла ошибка", "Main");
                         }
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        type = 1;
+                        sendMsg(message, "Не удалось подключиться к базе данных", "Main");
                     }
                     break;
             }

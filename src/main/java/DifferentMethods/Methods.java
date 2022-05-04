@@ -7,10 +7,6 @@ import java.net.URL;
 import java.util.HashMap;
 
 public class Methods {
-    //TODO сделать проверку по БД
-    public boolean checkGroup(String group){
-        return true;
-    }
 
     public HashMap<String, String> getCommands(){
         HashMap<String,String> commands = new HashMap<>();
@@ -30,7 +26,13 @@ public class Methods {
     public static String getSchedule(String day, String group) throws IOException {
         downloadUsingStream("https://kpfu.ru/portal/docs/F_1642005522/Raspisanie._2.sem._2021_22.uch.g._18.04.2022.xlsx", "Schedule.xlsx");
 
-        String text = day+". Расписание для группы "+group+"\n\n"+ExcelParser.parse("Schedule.xlsx", group, day);
+        String result = ExcelParser.parse("Schedule.xlsx", group, day);
+        String text = "";
+
+        if (result!=null)
+            text = day+". Расписание для группы "+group+"\n\n"+result;
+        else
+            text = "Проверьте правильность введения группы";
         return text;
     }
 

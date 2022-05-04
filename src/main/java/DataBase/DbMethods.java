@@ -16,6 +16,8 @@ public class DbMethods {
         TermRes termRes = new TermRes();
 
         String term = term1.toLowerCase();
+        term = term.replaceAll(" ", "");
+        term = term.replaceAll("ё", "е");
         String urls = "http://localhost:19327/term?name="+ URLEncoder.encode(term, "utf-8");
         URL url = new URL(urls);
 
@@ -30,7 +32,7 @@ public class DbMethods {
             termRes.setTerm(ttext.getString("text"));
             return term1 + " - " + termRes.getTerm();
         }else{
-            return "null";
+            return null;
         }
     }
 
@@ -53,7 +55,7 @@ public class DbMethods {
             JSONObject orgss = (JSONObject) orgs.get(0);
             org_id = orgss.getInt("id");
         }else{
-            return "null";
+            return null;
         }
 
         String urls2 = "http://localhost:19327/links?org_name="+ org_id;
@@ -76,7 +78,7 @@ public class DbMethods {
                 counter++;
             }
         }else{
-            return "null";
+            return null;
         }
 
         for (int i=0; i< type_id.size(); i++) {
@@ -92,7 +94,7 @@ public class DbMethods {
             if (types.length() > 0) {
                 linkRes.get(i).setType(types.getString("name"));
             } else {
-                res = "null";
+                res = null;
             }
         }
 
@@ -130,7 +132,7 @@ public class DbMethods {
                 foodRes.add(fr);
             }
         }else{
-            return "null";
+            return null;
         }
 
         String res="";
@@ -158,7 +160,7 @@ public class DbMethods {
             placeRes.setAddress(ttext.getString("address"));
             placeRes.setPhone(ttext.getString("phone"));
         }else{
-            return "null";
+            return null;
         }
 
         return placeRes.getName()+"\nАдрес: "+placeRes.getAddress()+"\nТелефон: "+placeRes.getPhone();

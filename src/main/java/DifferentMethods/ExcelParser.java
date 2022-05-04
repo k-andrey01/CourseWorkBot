@@ -101,7 +101,11 @@ public class ExcelParser {
             }
         }
 
-        return result;
+        if (index==0){
+            return null;
+        }else {
+            return result;
+        }
     }
 
 }
