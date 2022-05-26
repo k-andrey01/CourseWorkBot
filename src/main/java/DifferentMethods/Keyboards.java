@@ -56,7 +56,6 @@ public class Keyboards {
 
         KeyboardRow keyboardSecondRow = new KeyboardRow();
 
-        keyboardSecondRow.add(new KeyboardButton("ПрИкЛаДниЧкИ"));
         keyboardSecondRow.add(new KeyboardButton("SAAS"));
         keyboardSecondRow.add(new KeyboardButton("КРИС ИВМиИТ"));
 

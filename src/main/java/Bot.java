@@ -28,12 +28,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Bot extends TelegramLongPollingBot {
+    private HashMap<Long,Integer> type = new HashMap<>();
+    private HashMap<Long,String> dayWeek = new HashMap<>();
+    private HashMap<Long,String> myGroup = new HashMap<>();
+    private HashMap<Long,String> termin = new HashMap<>();
 
-    private int type = 1;
+    //private int type = 1;
 
-    public String dayWeek;
-    public String myGroup;
-    public String termin;
+    //public String dayWeek;
+    //public String myGroup;
+    //public String termin;
     Keyboards keyboards = new Keyboards();
     Methods methods = new Methods();
 
@@ -59,6 +63,8 @@ public class Bot extends TelegramLongPollingBot {
         sendMessage.setChatId(message.getChatId().toString());
         sendMessage.setReplyToMessageId(message.getMessageId());
         sendMessage.setText(text);
+        if (!type.containsKey(message.getChatId()))
+            type.put(message.getChatId(),1);
         try{
             switch (keyboard){
                 case "Main":
@@ -93,8 +99,10 @@ public class Bot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         HashMap<String,String> commands = methods.getCommands();
         Message message = update.getMessage();
+        if (!type.containsKey(message.getChatId()))
+            type.put(message.getChatId(),1);
         if (message!=null && message.hasText()){
-            switch (type){
+            switch (type.get(message.getChatId())){
                 case 1:
                     String mes;
                     if (message.getText().startsWith("/")){
@@ -104,7 +112,8 @@ public class Bot extends TelegramLongPollingBot {
                     }
                     switch (mes){
                         case "/help":
-                            type = 1;
+                            //type = 1;
+                            type.replace(message.getChatId(),1);
                             sendMsg(message, info, "Main");
                             break;
 
@@ -112,28 +121,32 @@ public class Bot extends TelegramLongPollingBot {
                             try {
                                 sendMsg(message, DbMethods.getFood(), "Main");
                             } catch (IOException e) {
-                                type=1;
+                                //type=1;
+                                type.replace(message.getChatId(),1);
                                 sendMsg(message, "Не удалось подключиться к базе данных", "Main");
                             }
                             break;
 
                         case "/term":
                             sendMsg(message, "Введите термин, значение которого Вам интересно:","Term");
-                            type=4;
+                            //type=4;
+                            type.replace(message.getChatId(),4);
                             break;
 
                         case "/developer":
-                            sendMsg(message, "ВКонтакте разработчика: https://vk.com/k.a_01\nТелеграм разработчика: https://t.me/k_andrey01", "Main");
+                            sendMsg(message, "ВКонтакте разработчика: \nhttps://vk.com/k.a_01\nТелеграм разработчика: \nhttps://t.me/k_andrey01", "Main");
                             break;
 
                         case "/schedule":
                             sendMsg(message, "Выберите день недели:", "Days");
-                            type = 2;
+                            //type = 2;
+                            type.replace(message.getChatId(),2);
                             break;
 
                         case "/address":
                             sendMsg(message, "Выберите интересующий Вас пункт администрации", "Address");
-                            type=6;
+                            //type=6;
+                            type.replace(message.getChatId(),6);
                             break;
 
                         case "/news":
@@ -155,7 +168,8 @@ public class Bot extends TelegramLongPollingBot {
 
                         case "/links":
                             sendMsg(message, "Что Вам интересно?", "Links");
-                            type=7;
+                            //type=7;
+                            type.replace(message.getChatId(),7);
                             break;
 
                         case "/start":
@@ -167,49 +181,69 @@ public class Bot extends TelegramLongPollingBot {
                     }
                     break;
                 case 2:
-                    dayWeek=message.getText();
-                    type=3;
+                    if (!dayWeek.containsKey(message.getChatId()))
+                        dayWeek.put(message.getChatId(),message.getText());
+                    else
+                        dayWeek.replace(message.getChatId(),message.getText());
+                    //dayWeek=message.getText();
+                    //type=3;
+                    type.replace(message.getChatId(),3);
                     sendMsg(message, "Введите вашу группу в формате: 09-951 (2)", "Group");
                     break;
                 case 3:
-                    myGroup = message.getText();
+                    if (!myGroup.containsKey(message.getChatId()))
+                        myGroup.put(message.getChatId(),message.getText());
+                    else
+                        myGroup.replace(message.getChatId(),message.getText());
+                    //myGroup = message.getText();
                     try {
-                        sendMsg(message, Methods.getSchedule(dayWeek, myGroup), "Main");
+                        sendMsg(message, Methods.getSchedule(dayWeek.get(message.getChatId()), myGroup.get(message.getChatId())), "Main");
                     } catch (IOException e) {
                         sendMsg(message, "Ошибка при получении данных", "Main");
                     }
-                    type=1;
+                    //type=1;
+                    type.replace(message.getChatId(),1);
                     sendMsg(message, "Главное меню", "Main");
                     break;
                 case 4:
-                    termin = message.getText();
+                    if (!termin.containsKey(message.getChatId()))
+                        termin.put(message.getChatId(),message.getText());
+                    else
+                        termin.replace(message.getChatId(),message.getText());
+                    //termin = message.getText();
                     try {
-                        String ms = DbMethods.getTerm(termin);
+                        String ms = DbMethods.getTerm(termin.get(message.getChatId()));
                         if (ms!=null) {
-                            type = 1;
-                            sendMsg(message, DbMethods.getTerm(termin), "Main");
+                            //type = 1;
+                            type.replace(message.getChatId(),1);
+                            sendMsg(message, ms, "Main");
                         } else {
-                            type = 5;
+                            //type = 5;
+                            type.replace(message.getChatId(),5);
                             sendMsg(message, "К сожалению. данного слова нет в нашем словаре. Хотите ли Вы отправить термин на рассмотрение к добавлению?", "YesNo");
                         }
                     } catch (IOException e) {
-                        type = 1;
+                        //type = 1;
+                        type.replace(message.getChatId(),1);
                         sendMsg(message, "Не удалось подключиться к базе данных", "Main");
                     }
                     break;
                 case 5:
                     switch (message.getText()){
                         case "Да":
-                            type=1;
+                            //type=1;
+                            type.replace(message.getChatId(),1);
                             Email email = new Email();
-                            email.sendMail(termin);
+                            email.sendMail(termin.get(message.getChatId()));
                             sendMsg(message, "Термин отправлен на рассмотрение к добавлению. Главное меню", "Main");
                         case "Нет":
-                            type=1;
+                            //type=1;
+                            type.replace(message.getChatId(),1);
                             sendMsg(message, "Главное меню", "Main");
                             break;
                         default:
-                            type=1;
+                            //type=1;
+                            type.replace(message.getChatId(),1);
                             sendMsg(message, "Ошибка! Главное меню:", "Main");
                             break;
                     }
@@ -218,14 +252,17 @@ public class Bot extends TelegramLongPollingBot {
                     try {
                         String ms = DbMethods.getPlace(message.getText());
                         if (ms!=null) {
-                            type = 1;
+                            //type = 1;
+                            type.replace(message.getChatId(),1);
                             sendMsg(message, ms, "Main");
                         } else {
-                            type = 1;
+                            //type = 1;
+                            type.replace(message.getChatId(),1);
                             sendMsg(message, "Произошла ошибка", "Main");
                         }
                     } catch (IOException e) {
-                        type = 1;
+                        //type = 1;
+                        type.replace(message.getChatId(),1);
                         sendMsg(message, "Не удалось подключиться к базе данных", "Main");
                     }
                     break;
@@ -233,14 +270,17 @@ public class Bot extends TelegramLongPollingBot {
                     try {
                         String ms = DbMethods.getLink(message.getText());
                         if (ms!=null) {
-                            type = 1;
+                            //type = 1;
+                            type.replace(message.getChatId(),1);
                             sendMsg(message, ms, "Main");
                         } else {
-                            type = 1;
+                            //type = 1;
+                            type.replace(message.getChatId(),1);
                             sendMsg(message, "Произошла ошибка", "Main");
                         }
                     } catch (IOException e) {
-                        type = 1;
+                        //type = 1;
+                        type.replace(message.getChatId(),1);
                         sendMsg(message, "Не удалось подключиться к базе данных", "Main");
                     }
                     break;
